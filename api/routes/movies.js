@@ -40,7 +40,7 @@ router.put("/:id", verify, async (req, res) => {
   }
 });
 //DELETE
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verify, async (req, res) => {
   if (req.user.isAdmin) {
     try {
       await Movies.findByIdAndDelete(req.params.id);
@@ -63,19 +63,19 @@ router.get("/find/:id", verify, async (req, res) => {
   }
 });
 //GET RANDOM
-router .get("/random", verify , async (req, res)=>{
+router.get("/random", verify , async (req, res)=>{
     const type = req.query.type;
     let movie;
     try{
 if(type === "series"){
     movie = await Movies.aggregate([
-        { $match : { isSerirs: true}},
-        { $sample:{ $size: 1}},
+        { $match : { isSeries: true}},
+        { $sample:{ size: 1}},
 
     ]);
-}else{ movie =await Movies.aggregate([
-    { $match : { isSerirs: false}},
-        { $sample:{ $size: 1}},
+}else{ movie = await Movies.aggregate([
+    { $match : { isSeries: false }},
+        { $sample:{ size: 1 }},
 ]);
 
 } res.status(200).json(movie);
