@@ -5,7 +5,7 @@ import {
   Route,
   redirect,
 } from "react-router-dom";
-import Home from "./home/home";
+import Home from "./home/Home";
 import "./app.scss";
 import Login from "./components/pages/watch/login/Login";
 import Register from "./components/pages/watch/register/Register";
