@@ -1,4 +1,4 @@
-import React, { useState } from "react"; // Import React
+import React, { useEffect, useState } from "react"; // Import React
 import {
   Add,
   PlayArrow,
@@ -7,11 +7,29 @@ import {
   ThumbUpAltOutlined,
 } from "@mui/icons-material";
 import "./listitem.scss";
+import axios from "axios";
 
-export default function Listitem({ index }) {
-  const [isHovered, setIsHovered] = useState(false);
-  const trailer =
-    "https://player.vimeo.com/video/845451645?h=28abcb82d4&autoplay=1&loop=1&title=0&byline=0";
+export default function Listitem({ index, item }) {
+  const [movie, setMovie] = useState({});
+  const [isHovered, setIsHovered] = useState(false); // Add state for hover
+
+  useEffect(() => {
+    const getMovie = async () => {
+      // this may throw an error appu bhaiya !! heads up
+      try {
+        const res = await axios.get("/movies/find/" + item, {
+          headers: {
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MThhNzRhOGM5OTM3MGI1M2E5MmJkYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxMzk2NTUxNiwiZXhwIjoxNzE2NTU3NTE2fQ.80Fcn9PDqXVFqxyBemqmXnFiQh6X9KbiMfX-Fp5w-bU"
+          },
+        });
+        setMovie(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMovie();
+  }, [item]);
+
   return (
     <>
       <div
@@ -20,23 +38,11 @@ export default function Listitem({ index }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTERdQxBn8u-9JVamd3zqWONXsxtWLC5nWYMw&s"
-          alt=""
-        />
+        <img src={movie.img} alt="" />
 
         {isHovered && (
           <>
-            <iframe
-              src={trailer}
-              width="325"
-              height="120"
-              frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-            {/* <iframe width="325" height="315" src={trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>*/}
-            {/*<video src={trailer} autoPlay={true} loop />*/}
+            <video src={movie.trailer} autoPlay={true} loop />
             <div className="itemInfo">
               <div className="icons">
                 <PlayArrow className="icon" />
@@ -44,16 +50,14 @@ export default function Listitem({ index }) {
                 <ThumbUpAltOutlined className="icon" />
                 <ThumbDownOutlined className="icon" />
               </div>
-              <div className="itemInfoTop">
-                <span> 1hr 15mins</span>
-                <span className="limit">+16</span>
-                <span>1999</span>
+            
+              <div className="itemInfoTop"> {/*images are not showing up in the front screen */}
+                <span>{movie.duration}</span>
+                <span className="limit">{movie.limit}</span>
+                <span>{movie.year}</span>
               </div>
-              <div className="desc">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem
-                ipsum dolor sit amet consectetur adipisicing elit.
-              </div>
-              <div className="genre">Action</div>
+              <div className="desc">{movie.desc}</div>
+              <div className="genre">{movie.genre}</div>
               {/* Moved this line inside the condition */}
             </div>
           </>
