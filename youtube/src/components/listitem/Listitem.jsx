@@ -9,6 +9,8 @@ import {
 import "./listitem.scss";
 import axios from "axios";
 
+
+
 export default function Listitem({ index, item }) {
   const [movie, setMovie] = useState({});
   const [isHovered, setIsHovered] = useState(false); // Add state for hover
@@ -16,10 +18,11 @@ export default function Listitem({ index, item }) {
   useEffect(() => {
     const getMovie = async () => {
       // this may throw an error appu bhaiya !! heads up
+      const url = "http://localhost:8800/api/featured/"  
       try {
-        const res = await axios.get("/movies/find/" + item, {
+        const res = await axios.get(url + item, {
           headers: {
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MThhNzRhOGM5OTM3MGI1M2E5MmJkYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxMzk2NTUxNiwiZXhwIjoxNzE2NTU3NTE2fQ.80Fcn9PDqXVFqxyBemqmXnFiQh6X9KbiMfX-Fp5w-bU"
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MThhNzRhOGM5OTM3MGI1M2E5MmJkYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxNDA0NzgyMywiZXhwIjoxNzE2NjM5ODIzfQ.q95ytWc4nYpDGUEQxKmMlJJoeTuQunVuf6nilottYw0"
           },
         });
         setMovie(res.data);
@@ -50,8 +53,7 @@ export default function Listitem({ index, item }) {
                 <ThumbUpAltOutlined className="icon" />
                 <ThumbDownOutlined className="icon" />
               </div>
-            
-              <div className="itemInfoTop"> {/*images are not showing up in the front screen */}
+              <div className="itemInfoTop">
                 <span>{movie.duration}</span>
                 <span className="limit">{movie.limit}</span>
                 <span>{movie.year}</span>
