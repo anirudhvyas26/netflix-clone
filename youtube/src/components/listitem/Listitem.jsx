@@ -9,21 +9,20 @@ import {
 import "./listitem.scss";
 import axios from "axios";
 
-
-
 export default function Listitem({ index, item }) {
   const [movie, setMovie] = useState({});
   const [isHovered, setIsHovered] = useState(false); // Add state for hover
 
   useEffect(() => {
     const getMovie = async () => {
-      // this may throw an error appu bhaiya !! heads up
-      const url = "http://localhost:8800/api/featured/"  
       try {
-        const res = await axios.get(url + item, {
+        // With the proxy configured, you can simply make requests to paths starting with "/api"
+        const res = await axios.get("http://localhost:8800/api/movies/find/" + item, {
           headers: {
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MThhNzRhOGM5OTM3MGI1M2E5MmJkYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxNDA0NzgyMywiZXhwIjoxNzE2NjM5ODIzfQ.q95ytWc4nYpDGUEQxKmMlJJoeTuQunVuf6nilottYw0"
+            Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MThhNzRhOGM5OTM3MGI1M2E5MmJkYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxNDEyMTM3MSwiZXhwIjoxNzE2NzEzMzcxfQ.OiMjGpzTpUYTK5pc83VcOCKWOU4KeyLADkqk1J8wFms"
           },
+
         });
         setMovie(res.data);
       } catch (err) {
@@ -37,11 +36,12 @@ export default function Listitem({ index, item }) {
     <>
       <div
         className="listitem"
-        style={{ left: isHovered && index * 225 - 50 + index * 2.5 }} // Error: Fixed the ternary condition
+        style={{ left: isHovered && index * 225 - 50 + index * 2.5 }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <img src={movie.img} alt="" />
+        
+        {<img src={movie.img} alt="" /> }
 
         {isHovered && (
           <>
@@ -60,7 +60,6 @@ export default function Listitem({ index, item }) {
               </div>
               <div className="desc">{movie.desc}</div>
               <div className="genre">{movie.genre}</div>
-              {/* Moved this line inside the condition */}
             </div>
           </>
         )}
