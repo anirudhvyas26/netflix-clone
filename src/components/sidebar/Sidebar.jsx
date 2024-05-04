@@ -12,7 +12,10 @@ import {
   ChatBubbleOutline,
   WorkOutline,
   Report,
-} from "@material-ui/icons";
+  PlayArrow,
+  PlayCircleFilledOutlined,
+  PlayCircleFilledWhiteOutlined,
+} from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -47,10 +50,10 @@ export default function Sidebar() {
                 Users
               </li>
             </Link>
-            <Link to="/products" className="link">
+            <Link to="/movies" className="link">
               <li className="sidebarListItem">
-                <Storefront className="sidebarIcon" />
-                Products
+                <PlayCircleFilledWhiteOutlined className="sidebarIcon" />
+                Movies
               </li>
             </Link>
             <li className="sidebarListItem">
