@@ -8,6 +8,7 @@ import {
 } from "@mui/icons-material";
 import "./listitem.scss";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Listitem({ index, item }) {
   const [movie, setMovie] = useState({});
@@ -33,7 +34,7 @@ export default function Listitem({ index, item }) {
   }, [item]);
 
   return (
-    <>
+    <Link to = {{pathname:"/watch", movie:movie }}>
       <div
         className="listitem"
         style={{ left: isHovered && index * 225 - 50 + index * 2.5 }}
@@ -64,6 +65,6 @@ export default function Listitem({ index, item }) {
           </>
         )}
       </div>
-    </>
+      </Link>
   );
 }

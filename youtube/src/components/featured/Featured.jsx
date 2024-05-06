@@ -1,7 +1,27 @@
 import { InfoOutlined, PlayArrow } from "@mui/icons-material";
 import "./featured.scss";
+import { useEffect, useState } from "react";
+import axios from "axios";
+export default function Featured({ type, setGenre }) {
+  const [content, setContent] = useState({});
 
-export default function Featured({ type }) {
+  useEffect(() => {
+    const getRandomContent = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8800/api/movies/random?type=${type}`, {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MThhNzRhOGM5OTM3MGI1M2E5MmJkYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxNDIyNTgwMiwiZXhwIjoxNzE2ODE3ODAyfQ.UI20hmuaubbGujo1bKCJLKziEUzJX5GEkstQrsKHCxo"
+          },
+        });
+        setContent(res.data[0]);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getRandomContent();
+  }, [type]);
+  console.log(content)
   return (
     <div className="featured">
       {type && (
@@ -27,19 +47,16 @@ export default function Featured({ type }) {
       )}
       <img
         width="100%"
-        src="https://www.pixel4k.com/wp-content/uploads/2019/06/matrix-trinity-4k_1560535039.jpg.webp"
+        src={content.img}
         alt=""
       />
       <div className="info">
         <img
-          src="https://occ-0-1432-1433.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABUZdeG1DrMstq-YKHZ-dA-cx2uQN_YbCYx7RABDk0y7F8ZK6nzgCz4bp5qJVgMizPbVpIvXrd4xMBQAuNe0xmuW2WjoeGMDn1cFO.webp?r=df1"
+          src={content.imgTitle}
           alt=" "
         />
         <span className="desc">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati
-          amet consequatur ex. Debitis perspiciatis porro ipsa quidem voluptas,
-          modi nesciunt, sit velit libero illo impedit nam, saepe consequuntur
-          sed obcaecati?
+         {content.desc}
         </span>
         <div className="buttons">
           <button className="play">

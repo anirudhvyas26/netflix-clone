@@ -1,4 +1,4 @@
-import Featured from "../components/featured/featured";
+import Featured from "../components/featured/Featured";
 import List from "../components/list/List";
 import Navbar from "../components/navbar/navbar";
 import "./home.scss";
